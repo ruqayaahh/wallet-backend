@@ -1,0 +1,45 @@
+{
+  "name": "wallet-backend",
+  "version": "1.0.0",
+  "description": "wallet-app for funding and transfer",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "test": "\"echo \\\"Error: no test specified\\\" && exit 1\"",
+    "lint": "eslint",
+    "start": "nodemon index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ruqayaahh/wallet-backend.git"
+  },
+  "keywords": [
+    "funding",
+    "transfer",
+    "wallet"
+  ],
+  "author": "ruqayaah",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ruqayaahh/wallet-backend/issues"
+  },
+  "homepage": "https://github.com/ruqayaahh/wallet-backend#readme",
+  "devDependencies": {
+    "eslint": "^7.25.0",
+    "eslint-config-airbnb": "^18.2.1",
+    "eslint-plugin-import": "^2.22.1",
+    "eslint-plugin-jsx-a11y": "^6.4.1",
+    "eslint-plugin-react": "^7.23.2",
+    "eslint-plugin-react-hooks": "^4.2.0"
+  },
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "express-validator": "^6.10.1",
+    "mongodb": "^3.6.6",
+    "mongoose": "^5.12.7",
+    "morgan": "^1.10.0",
+    "nodemon": "^2.0.7"
+  }
+}
