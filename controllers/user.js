@@ -2,7 +2,7 @@ import { checkSchema } from 'express-validator';
 import validator from '../middlewares/user';
 import registrationSchema from '../validation/user';
 import User from '../models/user';
-import { hashPassword, verifyToken, convertDataToToken } from '../utils/helpers';
+import { hashPassword } from '../utils/helpers';
 
 export const validate = (req, res) => {
   try {
