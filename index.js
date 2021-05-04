@@ -5,10 +5,11 @@ import dotenv from 'dotenv';
 // eslint-disable-next-line import/extensions
 import userRouter from './routes/user.js';
 
+const PORT = process.env.PORT || 3000;
+
 dotenv.config();
 
 const index = express();
-const port = 4000;
 
 index.use(userRouter);
 
@@ -31,4 +32,4 @@ index.get('/', (req, res) => {
   res.status(200).json({ message: 'Hello' });
 });
 
-index.listen(port, () => (console.log(`Listening @ ${port} again`)));
+index.listen(PORT, () => (console.log(`Listening @ ${PORT} again`)));
