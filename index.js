@@ -13,10 +13,10 @@ const index = express();
 
 index.use(userRouter);
 
-index.use((req, res) => res.status(404).json({
-  status: 'Fail',
-  message: 'Not Found',
-}));
+// index.use((req, res) => res.status(404).json({
+//   status: 'Fail',
+//   message: 'Not Found',
+// }));
 
 index.use(morgan('dev'));
 const dbName = `mongodb+srv://ruqayaah:${process.env.MONGO_PASSWORD}@cluster0.2lwgs.mongodb.net/tester`;
