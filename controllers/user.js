@@ -1,12 +1,10 @@
 import { checkSchema } from 'express-validator';
-// eslint-disable-next-line import/extensions
-import validator from '../middlewares/user.js';
-// eslint-disable-next-line import/extensions
-import registrationSchema from '../validation/user.js';
-// eslint-disable-next-line import/extensions
-// import validator from '../middlewares/user.js';
+import validator from '../middlewares/user';
+import registrationSchema from '../validation/user';
+import User from '../models/user';
+import { hashPassword, verifyToken, convertDataToToken } from '../utils/helpers';
 
-const validate = (req, res) => {
+export const validate = (req, res) => {
   try {
     validator(checkSchema(registrationSchema));
     return res.status(200).json({
@@ -23,4 +21,49 @@ const validate = (req, res) => {
   }
 };
 
-export default validate;
+// export default validate;
+
+export const saveUser = async (req, res) => {
+  console.log(req.body);
+  const data = req.body;
+  const encryptedPassword = hashPassword(data.password);
+  req.body = { ...data, password: encryptedPassword };
+  const {
+    firstname,
+    lastname,
+    dob,
+    email,
+    phone,
+    password,
+    gender,
+  } = req.body;
+  try {
+    const user = new User({
+      name: {
+        firstname,
+        lastname,
+      },
+      dob,
+      email,
+      phone,
+      password,
+      gender,
+    });
+
+    await user.save();
+    console.log(user);
+    return res.status(200).json({
+      status: 'Success',
+      success: 'true',
+      message: 'Registration successfull',
+      data: user,
+    });
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({
+      status: 'Fail',
+      success: 'false',
+      message: 'Something went wrong',
+    });
+  }
+};
