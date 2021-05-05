@@ -24,6 +24,7 @@ export const validate = (req, res) => {
 // export default validate;
 
 export const saveUser = async (req, res) => {
+  console.log(req.body);
   const data = req.body;
   const encryptedPassword = hashPassword(data.password);
   req.body = { ...data, password: encryptedPassword };
@@ -48,6 +49,7 @@ export const saveUser = async (req, res) => {
       password,
       gender,
     });
+    console.log(user);
 
     await user.save();
     return res.status(200).json({
