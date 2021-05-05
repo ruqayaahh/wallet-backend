@@ -6,7 +6,7 @@ import cors from 'cors';
 // eslint-disable-next-line import/extensions
 import userRouter from './routes/user.js';
 
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 5000;
 
 dotenv.config();
 
