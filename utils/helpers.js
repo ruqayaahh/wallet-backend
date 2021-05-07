@@ -8,7 +8,7 @@ const salt = genSaltSync(10);
 
 const jwtSecret = process.env.JWT_SECRET;
 
-export const convertDataToToken = (data) => jwt.sign(data, jwtSecret, { expiresIn: '1h' });
+export const convertDataToToken = (data) => jwt.sign(data, jwtSecret);
 
 export const verifyToken = (token) => jwt.verify(token, jwtSecret, (err, data) => ({ err, data }));
 

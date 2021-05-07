@@ -1,14 +1,26 @@
 import { Router } from 'express';
 import bodyParser from 'body-parser';
 // import authenticate from '../middlewares/auth';
-// import validator from '../middlewares/user';
-import { saveUser } from '../controllers/user';
+import { checkExistingUser, saveUser } from '../middlewares/user';
+import {
+  getOTP, verifyOtp, updateOtpOnTimeout,
+} from '../controllers/user';
 
 const parser = bodyParser.json();
 // const urlbodyParser = bodyParser.urlencoded({ extends: false });
 
 const userRouter = Router();
 
-userRouter.post('/register', parser, saveUser);
+// endpoint for signup before confirming otp
+userRouter.post('/register', parser, checkExistingUser, saveUser, verifyOtp);
+
+// endpoint for OTP timeout
+userRouter.post('/otp_reset', parser, updateOtpOnTimeout);
+
+// endpoint to get current OTP value
+userRouter.get('/otp', parser, getOTP);
+
+// endpoint for signup after confirming OTP
+// userRouter.post('/register/:token', );
 
 export default userRouter;

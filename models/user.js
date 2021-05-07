@@ -40,6 +40,7 @@ const userSchema = mongoose.Schema({
   phone: {
     type: Number,
     required: true,
+    // match: /^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s./0-9]*$/,
   },
   password: {
     type: String,
@@ -50,6 +51,10 @@ const userSchema = mongoose.Schema({
     type: String,
     required: true,
   },
+  otp: {
+    type: Number,
+    required: false,
+  },
   created_at: {
     type: Date,
     default: Date.now(),
@@ -59,5 +64,4 @@ const userSchema = mongoose.Schema({
 });
 
 const User = mongoose.model('User', userSchema);
-
 export default User;
