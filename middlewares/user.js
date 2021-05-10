@@ -79,12 +79,9 @@ export const saveUser = async (req, res, next) => {
 export const verifyUserOtp = async (req, res, next) => {
   const { payload } = req.body;
   try {
-    console.log('<<<<<<<<', payload[0], payload[1]);
     const email = payload[0];
     const otp = payload[1];
-    console.log('@@@@@@@', email, otp);
     const user = await User.findOne({ email, otp });
-    console.log('>>>>>>>>', user);
     if (!user) {
       return res.status(400).json({
         status: 'Fail',
@@ -92,6 +89,7 @@ export const verifyUserOtp = async (req, res, next) => {
       });
     }
     req.otp = otp;
+    req.email = email;
     return next();
   } catch (error) {
     console.log(error);

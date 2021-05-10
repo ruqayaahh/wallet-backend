@@ -116,9 +116,10 @@ export const getOTP = async (req, res) => {
 
 export const updateVerifyUser = async (req, res) => {
   const { otp } = req;
+  const { email } = req;
   console.log('>>>>>>', otp);
   try {
-    await User.findOneAndUpdate({ otp }, { verified: true }, {
+    await User.findOneAndUpdate({ email }, { verified: true }, {
       returnOriginal: false,
     });
     return res.status(200).json({
