@@ -75,3 +75,26 @@ export const saveUser = async (req, res, next) => {
     });
   }
 };
+
+export const verifyUserOtp = async (req, res, next) => {
+  const { otp } = req.body;
+  const { email } = req.query;
+  try {
+    const user = await User.findOne({ email, otp });
+    console.log('>>>>>>>>', user);
+    if (!user) {
+      return res.status(400).json({
+        status: 'Fail',
+        message: 'Invalid verification code',
+      });
+    }
+    req.otp = otp;
+    return next();
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({
+      status: 'Fail',
+      message: 'Something went wrong',
+    });
+  }
+};
