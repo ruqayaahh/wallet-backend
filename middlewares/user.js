@@ -77,9 +77,12 @@ export const saveUser = async (req, res, next) => {
 };
 
 export const verifyUserOtp = async (req, res, next) => {
-  const { otp } = req.body;
-  const { email } = req.query;
+  const { payload } = req.body;
   try {
+    console.log('<<<<<<<<', payload[0], payload[1]);
+    const email = payload[0];
+    const otp = payload[1];
+    console.log('@@@@@@@', email, otp);
     const user = await User.findOne({ email, otp });
     console.log('>>>>>>>>', user);
     if (!user) {

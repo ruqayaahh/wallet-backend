@@ -3,7 +3,7 @@ import bodyParser from 'body-parser';
 // import authenticate from '../middlewares/auth';
 import { checkExistingUser, saveUser, verifyUserOtp } from '../middlewares/user';
 import {
-  getOTP, verifyOtp, updateOtpOnTimeout, updateVerifyUser,
+  getOTP, verifyOtp, updateOtpOnTimeout,
 } from '../controllers/user';
 
 const parser = bodyParser.json();
@@ -13,7 +13,7 @@ const userRouter = Router();
 
 // endpoint for signup before confirming otp
 userRouter.post('/register', parser, checkExistingUser, saveUser, verifyOtp);
-userRouter.post('/verify_user', parser, verifyUserOtp, updateVerifyUser);
+userRouter.post('/verify_user', parser, verifyUserOtp);
 userRouter.post('/otp_resend', parser, verifyOtp);
 
 // endpoint for OTP timeout
