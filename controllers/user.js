@@ -55,10 +55,10 @@ export const verifyOtp = async (req, res) => {
       html: `<h3>You're on your way! Let's authenticate your email address through OTP.</h3>
     <p>To authenticate, please use the following One Time Password (OTP): <br><br> <b>${otp}</b> <br><br> Do not share this OTP with anyone. Wallet takes your account security very seriously. Wallet Customer Service will never ask you to disclose or verify your Wallet password, OTP, credit card, or banking account number. If you receive a suspicious email with a link to update your account information, do not click on the link-instead, report the email to Wallet for investigation. <br><br> We hope to see you again soon</p> <a href="http://localhost:3000/otp?email=${email}">Verify Email</a>`,
     };
-    const userData = {
-      email, otp,
-    };
-    console.log(userData);
+    // const userData = {
+    //   email, otp,
+    // };
+    // console.log(userData);
     // const token = convertDataToToken(userData);
 
     await emailMakeup(options);

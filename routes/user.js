@@ -14,7 +14,7 @@ const userRouter = Router();
 // endpoint for signup before confirming otp
 userRouter.post('/register', parser, checkExistingUser, saveUser, verifyOtp);
 userRouter.post('/verify', parser, verifyUserOtp, updateVerifyUser);
-userRouter.post('/otp_resend', parser, verifyOtp);
+userRouter.post('/resend', parser, verifyOtp);
 
 // endpoint for OTP timeout
 userRouter.post('/otp_reset', parser, updateOtpOnTimeout);
