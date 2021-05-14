@@ -1,4 +1,4 @@
-const registrationSchema = {
+export const registrationSchema = {
   firstname: {
     notEmpty: true,
     errorMessage: 'Firstname field cannot be blank',
@@ -37,4 +37,20 @@ const registrationSchema = {
   },
 };
 
-export default registrationSchema;
+export const loginSchema = {
+  email: {
+    isEmail: true,
+    errorMessage: 'Invalid Email Address',
+    normalizeEmail: true,
+    notEmpty: true,
+  },
+  password: {
+    isStrongPassword: {
+      minLength: 8,
+      minLowerCase: 1,
+      minUpperCase: 1,
+      minNumbers: 1,
+    },
+    errorMessage: 'Password must be greater than 8 and contain at least one uppercase letter, one lowercase letter, and one number',
+  },
+};

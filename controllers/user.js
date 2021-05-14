@@ -1,16 +1,18 @@
 /* eslint-disable max-len */
 import dotenv from 'dotenv';
+import https from 'https';
+// import axios from 'axios';
 import { checkSchema } from 'express-validator';
-import validator from '../middlewares/user';
-import registrationSchema from '../validation/user';
-import { saveOTP, findOTP } from '../services/user';
+import { validator } from '../middlewares/user';
+import { registrationSchema, loginSchema } from '../validation/user';
+import { saveOTP } from '../services/user';
 import { checkIfOtpExists, transporter } from '../utils/helpers';
 import User from '../models/user';
 // import User from '../models/user';
 
 dotenv.config();
 
-export const validate = (req, res) => {
+export const validateRegister = (req, res) => {
   try {
     validator(checkSchema(registrationSchema));
     return res.status(200).json({
@@ -26,6 +28,52 @@ export const validate = (req, res) => {
     });
   }
 };
+
+export const makeTransaction = (req) => {
+  const params = JSON.stringify(req.body);
+  const options = {
+    hostname: 'api.paystack.co',
+    port: 443,
+    path: '/transaction/initialize',
+    method: 'POST',
+    headers: {
+      Authorization: `Bearer ${process.env.SECRET_KEY}`,
+      'Content-Type': 'application/json',
+    },
+  };
+  const reqq = https.request(options, (res) => {
+    let data = '';
+    res.on('data', (chunk) => {
+      data += chunk;
+    });
+    res.on('end', () => {
+      // res.status(200).json({
+      //   success: true,
+      //   message: 'Successful',
+      //   data: JSON.parse(data),
+      // });
+      // res.send(JSON.parse(data));
+      req.paystackRespone = JSON.parse(data);
+      console.log(req.paystackRespone);
+    });
+  }).on('error', (error) => {
+    console.error(error);
+  });
+  reqq.write(params);
+  reqq.end();
+};
+
+export const madeTrans = (req) => {
+  console.log(req);
+};
+export const validateLogin = (req, res) => {
+  try {
+    validator(checkSchema(loginSchema));
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 export const emailMakeup = (options) => new Promise((resolve) => {
   transporter.sendMail(options, (err, info) => {
     if (err) {
@@ -77,39 +125,17 @@ export const verifyOtp = async (req, res) => {
 
 export const updateOtpOnTimeout = async (req, res) => {
   const { email } = req.body;
-  const otp = Math.floor(1000 + Math.random() * 9000);
   try {
+    const otp = await checkIfOtpExists();
     await saveOTP(email, otp);
     return res.status(200).json({
       status: 'Success',
       message: 'OTP updated successfully',
-      data: otp,
     });
   } catch (error) {
     return res.status(400).json({
       status: 'Fail',
       message: 'Something is not making the otp update successfully',
-      data: error,
-    });
-  }
-};
-
-export const getOTP = async (req, res) => {
-  // const { token } = req.headers;
-  const { email } = req.body;
-  try {
-    const otp = await findOTP(email);
-    // console.log(otp);
-    return res.status(200).json({
-      status: 'Success',
-      message: 'OTP retrieved successfully',
-      data: otp,
-    });
-  } catch (error) {
-    return res.status(400).json({
-      status: 'Fail',
-      message: 'Something is not making otp retrieval successful',
-      data: error,
     });
   }
 };
@@ -133,3 +159,5 @@ export const updateVerifyUser = async (req, res) => {
     });
   }
 };
+
+export default makeTransaction;

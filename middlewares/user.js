@@ -2,11 +2,9 @@ import { validationResult } from 'express-validator';
 import User from '../models/user';
 import { hashPassword } from '../utils/helpers';
 
-const validator = (validations) => async (req, res, next) => {
-  console.log(req.body);
+export const validator = (validations) => async (req, res, next) => {
   await Promise.all(validations.map((validation) => validation.run(req)));
   const errors = validationResult(req);
-
   if (errors.array().length === 0) {
     return next();
   }
@@ -18,8 +16,6 @@ const validator = (validations) => async (req, res, next) => {
     errors: errors.array(),
   });
 };
-
-export default validator;
 
 export const checkExistingUser = async (req, res, next) => {
   const { email } = req.body;
