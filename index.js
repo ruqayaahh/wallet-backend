@@ -36,3 +36,5 @@ mongoose.connect(dbName,
   }).then(() => console.log('Connected to DB')).catch((err) => console.log(err));
 
 index.listen(PORT, () => (console.log(`Listening @ ${PORT} again`)));
+
+// mongooselink: mongodb+srv://ruqayaah:RYBF.%23bN7kD86nB@cluster0.2lwgs.mongodb.net/test

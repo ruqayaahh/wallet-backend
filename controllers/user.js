@@ -1,6 +1,7 @@
 /* eslint-disable max-len */
 import dotenv from 'dotenv';
 import https from 'https';
+// import paystack from 'paystack';
 // import axios from 'axios';
 import { checkSchema } from 'express-validator';
 import { validator } from '../middlewares/user';
@@ -28,6 +29,17 @@ export const validateRegister = (req, res) => {
     });
   }
 };
+
+// export const makeTransaction = () => {
+//   try {
+//     paystack.transactions.list({ perPage: 20 })
+//       .then((body) => {
+//         console.log(body);
+//       });
+//   } catch (error) {
+//     console.log(error);
+//   }
+// };
 
 export const makeTransaction = (req) => {
   const params = JSON.stringify(req.body);
@@ -159,5 +171,3 @@ export const updateVerifyUser = async (req, res) => {
     });
   }
 };
-
-export default makeTransaction;
