@@ -53,24 +53,26 @@ export const makeTransaction = (req) => {
       'Content-Type': 'application/json',
     },
   };
-  const reqq = https.request(options, (res) => {
-    let data = '';
-    res.on('data', (chunk) => {
-      data += chunk;
+  const reqq = https
+    .request(options, (res) => {
+      let data = '';
+      res.on('data', (chunk) => {
+        data += chunk;
+      });
+      res.on('end', () => {
+        // res.status(200).json({
+        //   success: true,
+        //   message: 'Successful',
+        //   data: JSON.parse(data),
+        // });
+        // res.send(JSON.parse(data));
+        req.paystackRespone = JSON.parse(data);
+        console.log(req.paystackRespone);
+      });
+    })
+    .on('error', (error) => {
+      console.error(error);
     });
-    res.on('end', () => {
-      // res.status(200).json({
-      //   success: true,
-      //   message: 'Successful',
-      //   data: JSON.parse(data),
-      // });
-      // res.send(JSON.parse(data));
-      req.paystackRespone = JSON.parse(data);
-      console.log(req.paystackRespone);
-    });
-  }).on('error', (error) => {
-    console.error(error);
-  });
   reqq.write(params);
   reqq.end();
 };
@@ -157,9 +159,13 @@ export const updateVerifyUser = async (req, res) => {
   const { email } = req;
   console.log('>>>>>>', otp);
   try {
-    await User.findOneAndUpdate({ email }, { verified: true }, {
-      returnOriginal: false,
-    });
+    await User.findOneAndUpdate(
+      { email },
+      { verified: true },
+      {
+        returnOriginal: false,
+      },
+    );
     return res.status(200).json({
       status: 'Success',
       message: 'User account verified',
@@ -167,7 +173,7 @@ export const updateVerifyUser = async (req, res) => {
   } catch (error) {
     return res.status(400).json({
       status: 'Fail',
-      message: 'Something isn\'t right',
+      message: "Something isn't right",
     });
   }
 };
