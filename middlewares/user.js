@@ -19,22 +19,17 @@ export const validator = (validations) => async (req, res, next) => {
 };
 
 export const checkExistingUser = async (req, res, next) => {
+  console.log('>>>>>||||<<<<<<<', req.body);
   const { email } = req.body;
-  await User.find({ email }, (error, user) => {
-    if (error) {
-      return res.status(500).json({
-        message: 'Something went wrong',
-        data: error,
-      });
-    }
-    if (user.length) {
-      console.log(user);
-      return res.status(400).json({
-        message: 'Email already exists',
-      });
-    }
-    return next();
-  });
+  const user = await User.findOne({ email });
+  console.log(user);
+  if (user) {
+    return res.status(400).json({
+      status: 'Fail',
+      message: 'Email already exists.',
+    });
+  }
+  return next();
 };
 
 export const saveUser = async (req, res, next) => {
