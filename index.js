@@ -27,14 +27,16 @@ index.use((req, res) => res.status(404).json({
 
 const dbName = `mongodb+srv://ruqayaah:${process.env.MONGO_PASSWORD}@cluster0.2lwgs.mongodb.net/tester`;
 
-mongoose.connect(dbName,
-  {
+mongoose
+  .connect(dbName, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
     useCreateIndex: true,
     useFindAndModify: false,
-  }).then(() => console.log('Connected to DB')).catch((err) => console.log(err));
+  })
+  .then(() => console.log('Connected to DB'))
+  .catch((err) => console.log(err));
 
-index.listen(PORT, () => (console.log(`Listening @ ${PORT} again`)));
+index.listen(PORT, () => console.log(`Listening @ ${PORT} again`));
 
 // mongooselink: mongodb+srv://ruqayaah:RYBF.%23bN7kD86nB@cluster0.2lwgs.mongodb.net/test
