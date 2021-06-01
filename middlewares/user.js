@@ -1,7 +1,7 @@
-import { validationResult } from 'express-validator';
-import User from '../models/user';
-import { hashPassword } from '../utils/helpers';
-import { getUserByEmail } from '../services/user';
+import { validationResult } from "express-validator";
+import User from "../models/user";
+import { hashPassword } from "../utils/helpers";
+import { getUserByEmail } from "../services/user";
 
 export const validator = (validations) => async (req, res, next) => {
   await Promise.all(validations.map((validation) => validation.run(req)));
@@ -12,8 +12,8 @@ export const validator = (validations) => async (req, res, next) => {
   const errorsArray = errors.array();
   errorsArray.map((error) => console.log(error.msg));
   return res.status(400).json({
-    status: 'Fail',
-    message: 'Something went wrong',
+    status: "Fail",
+    message: "Something went wrong",
     errors: errors.array(),
   });
 };
@@ -23,13 +23,14 @@ export const checkExistingUser = async (req, res, next) => {
   await User.find({ email }, (error, user) => {
     if (error) {
       return res.status(500).json({
-        message: 'Something went wrong',
+        message: "Something went wrong",
         data: error,
       });
-    } if (user.length) {
+    }
+    if (user.length) {
       console.log(user);
       return res.status(400).json({
-        message: 'Email already exists',
+        message: "Email already exists",
       });
     }
     return next();
@@ -39,15 +40,7 @@ export const checkExistingUser = async (req, res, next) => {
 export const saveUser = async (req, res, next) => {
   const hashedPassword = hashPassword(req.body.password);
   req.body = { ...req.body, password: hashedPassword };
-  const {
-    firstname,
-    lastname,
-    dob,
-    email,
-    phone,
-    password,
-    gender,
-  } = req.body;
+  const { firstname, lastname, dob, email, phone, password, gender } = req.body;
   console.log(req.body);
   try {
     const user = new User({
@@ -67,7 +60,7 @@ export const saveUser = async (req, res, next) => {
   } catch (error) {
     console.log(error);
     return res.status(500).json({
-      status: 'Fail',
+      status: "Fail",
       message: error,
     });
   }
@@ -81,8 +74,8 @@ export const verifyUserOtp = async (req, res, next) => {
     const user = await User.findOne({ email, otp });
     if (!user) {
       return res.status(400).json({
-        status: 'Fail',
-        message: 'Invalid verification code',
+        status: "Fail",
+        message: "Invalid verification code",
       });
     }
     req.otp = otp;
@@ -91,13 +84,13 @@ export const verifyUserOtp = async (req, res, next) => {
   } catch (error) {
     console.log(error);
     return res.status(500).json({
-      status: 'Fail',
-      message: 'Something went wrong',
+      status: "Fail",
+      message: "Something went wrong",
     });
   }
 };
 
-export const checkIfUserExists = async (req, res, next) => {
-  const { email } = req.body;
-  const user = 
-}
+// export const checkIfUserExists = async (req, res, next) => {
+//   const { email } = req.body;
+//   const user =
+// }
