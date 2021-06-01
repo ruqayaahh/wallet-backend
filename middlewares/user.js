@@ -1,6 +1,7 @@
 import { validationResult } from 'express-validator';
 import User from '../models/user';
 import { hashPassword } from '../utils/helpers';
+import { getUserByEmail } from '../services/user';
 
 export const validator = (validations) => async (req, res, next) => {
   await Promise.all(validations.map((validation) => validation.run(req)));
@@ -95,3 +96,8 @@ export const verifyUserOtp = async (req, res, next) => {
     });
   }
 };
+
+export const checkIfUserExists = async (req, res, next) => {
+  const { email } = req.body;
+  const user = 
+}
